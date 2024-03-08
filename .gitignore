@@ -1,0 +1,18 @@
+.DS_Store
+
+# compiled output
+/dist
+/node_modules
+src/database/migrations/*.json
+/dump*
+
+# configs
+.env
+
+# Logs
+logs
+*.log
+
+# IDE - VSCode
+.vscode
+

@@ -1,6 +1,6 @@
 {
   "name": "room-booking-system",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Test task for the 'scrambly.io'",
   "author": "Denis Lutsky <denis.lutsky@outslook.com>",
   "private": true,
@@ -13,7 +13,7 @@
     "allow-migration": "node premigrate.js",
     "migration:create": "npm run allow-migration && npm run build && mikro-orm migration:create",
     "migration:up": "npm run allow-migration && npm run build && mikro-orm migration:up",
-    "migration:down": "npm run allow-migration && npm run check-env && mikro-orm migration:down",
+    "migration:down": "npm run allow-migration  && npm run build && mikro-orm migration:down",
     "database:fresh": "npm run allow-migration && npm run build && mikro-orm migration:fresh --seed"
   },
   "dependencies": {

@@ -37,4 +37,28 @@ export class UsersRepository {
       count,
     };
   }
+
+  public async selectOneUser(userId: number): Promise<UserEntity> {
+    this.logger.log(`Selecting record for user ${userId}`);
+
+    return await this.orm.em.findOne(UserEntity, { userId });
+  }
+
+  public async updateUser(user: UserEntity, input: Partial<User>): Promise<UserEntity> {
+    this.logger.log(`Updating record for user ${user.userId}`);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    user.assign(input);
+
+    await this.orm.em.persistAndFlush(user);
+
+    return user;
+  }
+
+  public async deleteUser(user: UserEntity): Promise<void> {
+    this.logger.log(`Deleting record for user ${user.userId}`);
+
+    await this.orm.em.removeAndFlush(user);
+  }
 }

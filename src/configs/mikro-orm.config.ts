@@ -28,6 +28,7 @@ export default defineConfig({
     defaultSeeder: DatabaseSeeder.name,
     emit: 'js',
   },
+  forceUtcTimezone: true,
   allowGlobalContext: true,
   namingStrategy: EntityCaseNamingStrategy,
   extensions: [Migrator, SeedManager],

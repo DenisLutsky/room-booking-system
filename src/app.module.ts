@@ -8,9 +8,17 @@ import { UsersModule } from './modules/users/users.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
 import { CacheModule } from './modules/cache/cache.module';
+import { BookingModule } from './modules/booking/booking.module';
 
 @Module({
-  imports: [MikroOrmModule.forRoot(ormConfig), UsersModule, RoomsModule, AuthorizationModule, CacheModule],
+  imports: [
+    MikroOrmModule.forRoot(ormConfig),
+    UsersModule,
+    RoomsModule,
+    AuthorizationModule,
+    CacheModule,
+    BookingModule,
+  ],
   providers: [
     {
       provide: APP_GUARD,

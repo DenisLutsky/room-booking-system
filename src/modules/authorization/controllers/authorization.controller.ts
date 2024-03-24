@@ -1,10 +1,13 @@
 import { Body, Controller, Delete, Post, Put } from '@nestjs/common';
 
 import { AuthTokens } from '../interfaces';
-import { AuthenticationDto, AuthTokensDto, RefreshTokensDto, RegistrationDto } from '../dto';
+import { AuthenticationDto, AuthTokensDto, RefreshTokenDto, RegistrationDto } from '../dto';
 import { AuthorizationService } from '../services';
+import { SkipGuards } from 'shared/decorators/skip-guards.decorator';
+import { AuthenticationGuard } from '../guards';
 
 @Controller('authorization')
+@SkipGuards(AuthenticationGuard)
 export class AuthorizationController {
   public constructor(private readonly registrationService: AuthorizationService) {}
 
@@ -19,7 +22,7 @@ export class AuthorizationController {
   }
 
   @Put('refresh-tokens')
-  private async refreshTokens(@Body() { refreshToken }: RefreshTokensDto): Promise<AuthTokens> {
+  private async refreshTokens(@Body() { refreshToken }: RefreshTokenDto): Promise<AuthTokens> {
     return await this.registrationService.refreshTokens(refreshToken);
   }
 

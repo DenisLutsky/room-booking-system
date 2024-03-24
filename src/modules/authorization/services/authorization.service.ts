@@ -1,14 +1,14 @@
 import { ConflictException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import config from 'configs/app.config';
 
 import { generateAccessToken, generateRefreshToken, verifyAccessToken, verifyRefreshToken } from '../utils/tokens';
+import { comparePasswords } from '../utils/passwords';
 import { AuthPayload, AuthTokens } from '../interfaces';
 import { AuthenticationDto } from '../dto';
 import { User } from 'modules/users/interfaces';
 import { UsersService } from 'modules/users/services';
 import { AuthTokensCacheService } from 'modules/cache/services';
 import { UserEntity } from 'modules/users/entities';
-import config from 'configs/app.config';
-import { comparePasswords } from '../utils/passwords';
 
 @Injectable()
 export class AuthorizationService {
@@ -73,8 +73,6 @@ export class AuthorizationService {
 
     const { userId } = verifyRefreshToken(refreshToken);
     const isTokenWhitelisted = await this.authTokensCacheService.isTokenWhitelisted(userId, refreshToken);
-
-    console.log('isTokenWhitelisted', isTokenWhitelisted);
 
     if (!isTokenWhitelisted) throw new UnauthorizedException('Invalid refresh token');
 

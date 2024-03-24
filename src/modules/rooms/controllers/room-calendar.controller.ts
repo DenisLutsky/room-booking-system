@@ -1,10 +1,12 @@
-import { Controller, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { CreateTimeSlotDto } from '../dto';
 import { TimeSlotEntity } from '../entities';
 import { CalendarsService } from '../services';
+import { SuperAdminGuard } from 'modules/authorization/guards';
 
 @Controller('rooms/:roomId/calendar')
+@UseGuards(SuperAdminGuard)
 export class RoomCalendarController {
   public constructor(private readonly calendarsService: CalendarsService) {}
 

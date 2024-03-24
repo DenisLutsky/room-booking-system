@@ -1,15 +1,17 @@
-import { Controller, Post, Body, Get, Query, Param, ParseIntPipe, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Param, ParseIntPipe, Patch, Delete, UseGuards } from '@nestjs/common';
 
 import { PaginatedResult } from 'shared/interfaces';
 import { CreateRoomDto, GetRoomsDto, UpdateRoomDto } from '../dto';
 import { RoomEntity } from '../entities';
 import { RoomsService } from '../services';
+import { SuperAdminGuard } from 'modules/authorization/guards';
 
 @Controller('rooms')
 export class RoomsController {
   public constructor(private readonly roomsService: RoomsService) {}
 
   @Post()
+  @UseGuards(SuperAdminGuard)
   private async createRoom(@Body() input: CreateRoomDto): Promise<RoomEntity> {
     return await this.roomsService.createRoom(input);
   }
@@ -25,6 +27,7 @@ export class RoomsController {
   }
 
   @Patch(':roomId')
+  @UseGuards(SuperAdminGuard)
   private async updateRoom(
     @Param('roomId', ParseIntPipe) roomId: number,
     @Body() input: UpdateRoomDto,
@@ -33,6 +36,7 @@ export class RoomsController {
   }
 
   @Delete(':roomId')
+  @UseGuards(SuperAdminGuard)
   private async deleteRoom(@Param('roomId', ParseIntPipe) roomId: number): Promise<void> {
     return await this.roomsService.deleteRoom(roomId);
   }

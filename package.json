@@ -9,7 +9,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src}/**/*.ts\" --fix",
+    "lint": "eslint \"src/**/*.ts\" --fix",
     "allow-migration": "node premigrate.js",
     "migration:create": "npm run allow-migration && npm run build && mikro-orm migration:create",
     "migration:up": "npm run allow-migration && npm run build && mikro-orm migration:up",

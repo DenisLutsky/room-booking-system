@@ -1,0 +1,7 @@
+export enum RoomType {
+  CONFERENCE = 'CONFERENCE',
+  MEETING = 'MEETING',
+  STUDIO = 'STUDIO',
+  LOUNGE = 'LOUNGE',
+  OPEN_AREA = 'OPEN_AREA',
+}

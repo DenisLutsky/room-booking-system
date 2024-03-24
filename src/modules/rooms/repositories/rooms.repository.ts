@@ -2,9 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { FilterQuery, FindOptions, MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
+import { PaginatedResult, Pagination } from 'shared/interfaces';
 import { Room } from '../interfaces';
 import { CalendarEntity, RoomEntity } from '../entities';
-import { PaginatedResult, Pagination } from 'shared/interfaces';
 
 @Injectable()
 export class RoomsRepository {
@@ -40,5 +40,25 @@ export class RoomsRepository {
       items: users,
       count,
     };
+  }
+
+  public async selectRoom(roomId: number): Promise<RoomEntity> {
+    this.logger.log(`Selecting room ${roomId}`);
+
+    return await this.orm.em.findOne(RoomEntity, { roomId });
+  }
+
+  public async updateRoom(room: RoomEntity, input: Partial<Room>): Promise<RoomEntity> {
+    this.logger.log(`Updating room ${room.roomId}`);
+
+    room.assign(input);
+
+    return room;
+  }
+
+  public async deleteRoom(room: RoomEntity): Promise<void> {
+    this.logger.log(`Deleting room ${room.roomId}`);
+
+    await this.orm.em.removeAndFlush(room);
   }
 }

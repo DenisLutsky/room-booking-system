@@ -2,7 +2,7 @@ import type { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
 import config from 'configs/app.config';
 
-import { hashPassword } from 'shared/utils/passwords';
+import { hashPassword } from 'modules/authorization/utils/passwords';
 import { UserEntity } from 'modules/users/entities';
 
 export class SuperAdminSeeder extends Seeder {

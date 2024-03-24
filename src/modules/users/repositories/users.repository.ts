@@ -3,7 +3,7 @@ import { FilterQuery, FindOptions, MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 import { PaginatedResult, Pagination } from 'shared/interfaces';
-import { User } from '../interfaces';
+import { FindUserInput, User } from '../interfaces';
 import { UserEntity } from '../entities';
 
 @Injectable()
@@ -38,10 +38,15 @@ export class UsersRepository {
     };
   }
 
-  public async selectOneUser(userId: number): Promise<UserEntity> {
-    this.logger.log(`Selecting record for user ${userId}`);
+  public async selectOneUser(input: FindUserInput): Promise<UserEntity> {
+    this.logger.log(`Selecting user record with filer`);
 
-    return await this.orm.em.findOne(UserEntity, { userId });
+    const filer: FilterQuery<UserEntity> = {};
+
+    if (input.userId) filer.userId = input.userId;
+    if (input.email) filer.email = input.email;
+
+    return await this.orm.em.findOne(UserEntity, filer);
   }
 
   public async updateUser(user: UserEntity, input: Partial<User>): Promise<UserEntity> {

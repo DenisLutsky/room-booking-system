@@ -4,7 +4,7 @@ import { Migrator } from '@mikro-orm/migrations';
 import { SeedManager } from '@mikro-orm/seeder';
 import config from './app.config';
 
-import { WorkingEnvironments } from 'shared/enums';
+import { WorkingEnvironment } from 'shared/enums';
 import { DatabaseSeeder } from 'src/database/seeds/database.seeder';
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
     path: 'dist/database/migrations',
     pathTs: 'src/database/migrations',
     transactional: true,
-    emit: config.app.environment !== WorkingEnvironments.DEVELOPMENT ? 'js' : 'ts',
+    emit: config.app.environment !== WorkingEnvironment.DEVELOPMENT ? 'js' : 'ts',
   },
   seeder: {
     path: 'database/seeds',

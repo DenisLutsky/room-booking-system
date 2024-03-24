@@ -1,4 +1,5 @@
 import { BaseEntity, Entity, OptionalProps, PrimaryKey, PrimaryKeyProp, Property } from '@mikro-orm/core';
+import { Nullable } from 'shared/types';
 
 @Entity({ tableName: 'users' })
 export class UserEntity extends BaseEntity {
@@ -23,9 +24,6 @@ export class UserEntity extends BaseEntity {
   @Property({ name: 'created_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
   public createdAt!: Date;
 
-  @Property({ name: 'deleted_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
-  public deletedAt!: Date;
-
   @Property({
     name: 'modified_at',
     columnType: 'timestamp',
@@ -33,6 +31,9 @@ export class UserEntity extends BaseEntity {
     onUpdate: () => new Date(),
   })
   public modifiedAt!: Date;
+
+  @Property({ name: 'deleted_at', columnType: 'timestamp', nullable: true, default: null })
+  public deletedAt!: Nullable<Date>;
 
   public [OptionalProps]?: 'userId' | 'deleted' | 'createdAt' | 'modifiedAt' | 'deletedAt';
 

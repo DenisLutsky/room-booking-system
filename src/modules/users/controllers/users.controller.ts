@@ -1,11 +1,13 @@
-import { Controller, Post, Body, Get, Query, Patch, Param, ParseIntPipe, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Patch, Param, ParseIntPipe, Delete, UseGuards } from '@nestjs/common';
 
 import { PaginatedResult } from 'shared/interfaces';
 import { CreateUserDto, GetUsersDto } from '../dto';
 import { UserEntity } from '../entities';
 import { UsersService } from '../services';
+import { SuperAdminGuard } from 'modules/authorization/guards';
 
 @Controller('users')
+@UseGuards(SuperAdminGuard)
 export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
@@ -21,7 +23,7 @@ export class UsersController {
 
   @Get(':userId')
   private async getUser(@Param('userId', ParseIntPipe) userId: number): Promise<UserEntity> {
-    return await this.usersService.getUser(userId);
+    return await this.usersService.getOneUserById(userId);
   }
 
   @Patch(':userId')

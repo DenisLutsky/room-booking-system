@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { TimeSlot } from '../interfaces';
+import { GetTimeSlotsInput, TimeSlot } from '../interfaces';
 import { TimeSlotEntity } from '../entities';
 import { RoomsService } from './rooms.service';
 import { CalendarsRepository } from '../repositories';
@@ -23,5 +23,11 @@ export class CalendarsService {
     if (!calendar) throw new Error(`Calendar for room ${roomId} not found`);
 
     return await this.calendarsRepository.insertTimeSlot(calendar, input);
+  }
+
+  public async getTimeSlots(input: Partial<GetTimeSlotsInput>): Promise<TimeSlotEntity[]> {
+    this.logger.log(`Getting list of time slots`);
+
+    return await this.calendarsRepository.getTimeSlots(input);
   }
 }

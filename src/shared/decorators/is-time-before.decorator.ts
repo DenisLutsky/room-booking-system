@@ -13,6 +13,8 @@ export class IsTimeBeforeConstraint implements ValidatorConstraintInterface {
     const [relatedPropertyName] = args.constraints;
     const endTime = (args.object as unknown)[relatedPropertyName];
 
+    if (!startTime || !endTime) return true;
+
     return dayjs(startTime, 'HH:mm:ss').isBefore(dayjs(endTime, 'HH:mm:ss'));
   }
 

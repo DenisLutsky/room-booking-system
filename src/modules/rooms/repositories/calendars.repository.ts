@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { MikroORM } from '@mikro-orm/core';
+import { FilterQuery, MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
-import { TimeSlot } from '../interfaces';
+import { GetTimeSlotsInput, TimeSlot } from '../interfaces';
 import { CalendarEntity, TimeSlotEntity } from '../entities';
 
 @Injectable()
@@ -18,5 +18,27 @@ export class CalendarsRepository {
     await this.orm.em.persistAndFlush(timeSlot);
 
     return timeSlot;
+  }
+
+  public async getTimeSlots(input: Partial<GetTimeSlotsInput>): Promise<TimeSlotEntity[]> {
+    this.logger.log(`Selecting time slot records`);
+
+    const filter: FilterQuery<TimeSlotEntity> = {};
+
+    if (input.roomId) filter.calendar = { room: { roomId: input.roomId } };
+    if (input.roomType) filter.calendar = { room: { type: input.roomType } };
+    if (input.dateFrom || input.dateTo) {
+      filter.date = { $gte: input.dateFrom || input.dateTo, $lte: input.dateTo || input.dateFrom };
+    }
+    if (input.timeFrom || input.timeTo) {
+      filter.startTime = { $gte: input.timeFrom || input.timeTo, $lt: input.timeTo || input.timeFrom };
+    }
+    if (input.timeFrom || input.timeTo) {
+      filter.endTime = { $gt: input.timeFrom || input.timeTo, $lte: input.timeTo || input.timeFrom };
+    }
+
+    // FIXME: Potentially might fetch big amount of data
+    // find a way to limit the amount of time slots selected at once
+    return await this.orm.em.find(TimeSlotEntity, filter);
   }
 }

@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import { env } from 'node:process';
 import { WorkingEnvironments } from 'shared/enums';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 const config = {
   app: {

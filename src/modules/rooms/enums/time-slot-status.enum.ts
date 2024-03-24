@@ -1,5 +1,5 @@
 export enum TimeSlotStatus {
-  AVAILABLE = 'available',
-  RESERVED = 'reserved',
-  BOOKED = 'booked',
+  AVAILABLE = 'AVAILABLE',
+  RESERVED = 'RESERVED',
+  BOOKED = 'BOOKED',
 }

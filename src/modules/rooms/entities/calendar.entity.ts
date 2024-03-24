@@ -8,6 +8,7 @@ import {
   PrimaryKey,
   PrimaryKeyProp,
   Property,
+  Ref,
 } from '@mikro-orm/core';
 
 import { RoomEntity } from './room.entity';
@@ -24,8 +25,9 @@ export class CalendarEntity extends BaseEntity {
     joinColumn: 'id',
     inversedBy: 'calendar',
     deleteRule: 'cascade',
+    ref: true,
   })
-  public room!: RoomEntity;
+  public room!: Ref<RoomEntity>;
 
   @OneToMany({ entity: () => TimeSlotEntity, name: 'time_slot_id', joinColumn: 'id', mappedBy: 'calendar' })
   public timeSlots!: Collection<TimeSlotEntity>;

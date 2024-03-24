@@ -7,18 +7,18 @@ export class Migration20240323222333 extends Migration {
         "id" serial primary key, 
         "name" varchar(50) not null, 
         "type" text check ("type" in (
-          'conference', 
-          'meeting', 
-          'studio', 
-          'lounge', 
-          'open_area'
+          'CONFERENCE', 
+          'MEETING', 
+          'STUDIO', 
+          'LOUNGE', 
+          'OPEN_AREA'
         )) not null, 
         "area" int4 not null, 
         "capacity" int4 not null, 
         "deleted" bool not null default false, 
         "created_at" timestamp not null default current_timestamp, 
-        "deleted_at" timestamp not null default current_timestamp, 
-        "modified_at" timestamp not null default current_timestamp
+        "modified_at" timestamp not null default current_timestamp,
+        "deleted_at" timestamp null default null
       );
     `);
 
@@ -52,11 +52,11 @@ export class Migration20240323222333 extends Migration {
         "start_time" time not null, 
         "end_time" time not null, 
         "status" text check ("status" in (
-          'available', 
-          'reserved', 
-          'booked'
-        )) not null default 'available', 
-        "reserved_at" timestamp not null default current_timestamp, 
+          'AVAILABLE', 
+          'RESERVED', 
+          'BOOKED'
+        )) not null default 'AVAILABLE', 
+        "reserved_at" timestamp null default null, 
         "created_at" timestamp not null default current_timestamp, 
         "modified_at" timestamp not null default current_timestamp
       );

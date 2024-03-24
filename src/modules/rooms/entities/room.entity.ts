@@ -7,8 +7,10 @@ import {
   PrimaryKey,
   PrimaryKeyProp,
   Property,
+  Ref,
 } from '@mikro-orm/core';
 
+import { Nullable } from 'shared/types';
 import { RoomType } from '../enums';
 import { CalendarEntity } from './calendar.entity';
 
@@ -29,17 +31,14 @@ export class RoomEntity extends BaseEntity {
   @Property({ name: 'capacity', columnType: 'int4' })
   public capacity!: number;
 
-  @OneToOne({ entity: () => CalendarEntity, name: 'calendar_id', joinColumn: 'id', mappedBy: 'room' })
-  public calendar!: CalendarEntity;
+  @OneToOne({ entity: () => CalendarEntity, name: 'calendar_id', joinColumn: 'id', mappedBy: 'room', ref: true })
+  public calendar!: Ref<CalendarEntity>;
 
   @Property({ name: 'deleted', columnType: 'bool', default: false })
   public deleted!: boolean;
 
   @Property({ name: 'created_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
   public createdAt!: Date;
-
-  @Property({ name: 'deleted_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
-  public deletedAt!: Date;
 
   @Property({
     name: 'modified_at',
@@ -48,6 +47,9 @@ export class RoomEntity extends BaseEntity {
     onUpdate: () => new Date(),
   })
   public modifiedAt!: Date;
+
+  @Property({ name: 'deleted_at', columnType: 'timestamp', nullable: true, default: null })
+  public deletedAt!: Nullable<Date>;
 
   public [OptionalProps]?: 'roomId' | 'deleted' | 'createdAt' | 'modifiedAt' | 'deletedAt';
 

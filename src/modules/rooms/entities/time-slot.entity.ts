@@ -9,8 +9,10 @@ import {
   PrimaryKeyProp,
   Property,
 } from '@mikro-orm/core';
-import { CalendarEntity } from './calendar.entity';
+
+import { Nullable } from 'shared/types';
 import { TimeSlotStatus } from '../enums';
+import { CalendarEntity } from './calendar.entity';
 
 @Entity({ tableName: 'time_slots' })
 export class TimeSlotEntity extends BaseEntity {
@@ -38,8 +40,8 @@ export class TimeSlotEntity extends BaseEntity {
   @Enum({ name: 'status', items: () => TimeSlotStatus, default: TimeSlotStatus.AVAILABLE })
   public status!: TimeSlotStatus;
 
-  @Property({ name: 'reserved_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
-  public reservedAt!: Date;
+  @Property({ name: 'reserved_at', columnType: 'timestamp', nullable: true, default: null })
+  public reservedAt!: Nullable<Date>;
 
   @Property({ name: 'created_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
   public createdAt!: Date;

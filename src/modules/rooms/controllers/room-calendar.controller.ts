@@ -15,4 +15,6 @@ export class RoomCalendarController {
   ): Promise<TimeSlotEntity> {
     return await this.calendarsService.createTimeSlot(roomId, input);
   }
+
+  // TODO: add functionality to manage time slots
 }

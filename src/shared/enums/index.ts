@@ -1,1 +1,1 @@
-export * from './working-environments.eum';
+export * from './working-environment.eum';

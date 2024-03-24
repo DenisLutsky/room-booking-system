@@ -21,7 +21,7 @@ export class UsersController {
 
   @Get(':userId')
   private async getUser(@Param('userId', ParseIntPipe) userId: number): Promise<UserEntity> {
-    return await this.usersService.getUser(userId);
+    return await this.usersService.getOneUserById(userId);
   }
 
   @Patch(':userId')

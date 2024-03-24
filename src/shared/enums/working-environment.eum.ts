@@ -1,4 +1,4 @@
-export enum WorkingEnvironments {
+export enum WorkingEnvironment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
 }

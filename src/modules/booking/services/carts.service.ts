@@ -1,8 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, Logger } from '@nestjs/common';
 
 import { CartEntity } from '../entities';
 import { ProductsService } from './products.service';
 import { CartsRepository } from '../repositories';
+import { TimeSlotStatus } from 'modules/rooms/enums';
 
 @Injectable()
 export class CartsService {
@@ -29,6 +30,11 @@ export class CartsService {
 
     const cart = await this.getActiveCartByUserId(userId);
     const product = await this.productsService.selectProductById(productId);
+    const timeSlot = await product.timeSlot.load();
+
+    if (timeSlot.status !== TimeSlotStatus.AVAILABLE) {
+      throw new ConflictException(`Product ${productId} is already reserved`);
+    }
 
     await this.cartsRepository.addProductToCart(cart, product);
   }
@@ -37,8 +43,11 @@ export class CartsService {
     this.logger.log(`Removing product ${productId} from cart for user ${userId}`);
 
     const cart = await this.getActiveCartByUserId(userId);
-    const product = await this.productsService.selectProductById(productId);
+    const products = await cart.products.loadItems();
+    const productItCart = products.find((product) => product.productId === productId);
 
-    await this.cartsRepository.removeProductFromCart(cart, product);
+    if (!products.length || !productItCart) throw new BadRequestException(`Product ${productId} not found in cart`);
+
+    await this.cartsRepository.removeProductFromCart(cart, productItCart);
   }
 }

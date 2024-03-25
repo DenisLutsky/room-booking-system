@@ -10,6 +10,7 @@ import {
   PrimaryKeyProp,
   Property,
   Ref,
+  Unique,
 } from '@mikro-orm/core';
 
 import { Nullable } from 'shared/types';
@@ -18,6 +19,7 @@ import { OrderEntity } from './order.entity';
 import { UserEntity } from 'modules/users/entities';
 
 @Entity({ tableName: 'carts' })
+@Unique({ properties: ['cartId', 'active'] })
 export class CartEntity extends BaseEntity {
   @PrimaryKey({ name: 'id' })
   public cartId!: number;
@@ -37,7 +39,7 @@ export class CartEntity extends BaseEntity {
   @ManyToOne({ name: 'user_id', entity: () => UserEntity, ref: true })
   public user!: Ref<UserEntity>;
 
-  @Property({ name: 'active', columnType: 'bool', unique: true, default: true })
+  @Property({ name: 'active', columnType: 'bool', default: true })
   public active!: boolean;
 
   @OneToOne({ name: 'order_id', entity: () => OrderEntity, mappedBy: 'cart', nullable: true, ref: true })

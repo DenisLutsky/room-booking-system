@@ -30,7 +30,7 @@ export class Migration20240325112620 extends Migration {
     `);
     this.addSql(`
       alter table "carts" 
-      add constraint "carts_active_unique" unique ("active");
+        add constraint "carts_id_active_unique" unique ("id", "active");
     `);
 
     this.addSql(`

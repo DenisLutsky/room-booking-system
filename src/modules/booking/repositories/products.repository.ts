@@ -11,7 +11,7 @@ export class ProductsRepository {
 
   public constructor(private readonly orm: MikroORM<PostgreSqlDriver>) {}
 
-  public async selectOneProduct(input: ProductInput): Promise<ProductEntity> {
+  public async selectOneProduct(input: Partial<ProductInput>): Promise<ProductEntity> {
     this.logger.log(`Selecting one product record with filter`);
 
     const filter: FilterQuery<ProductEntity> = {};

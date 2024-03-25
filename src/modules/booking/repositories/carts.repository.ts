@@ -47,7 +47,9 @@ export class CartsRepository {
       cart.products.add(product);
       cart.total += product.price;
 
-      product.timeSlot.getEntity().status = TimeSlotStatus.RESERVED;
+      const timeSlot = product.timeSlot.unwrap();
+      timeSlot.status = TimeSlotStatus.RESERVED;
+      timeSlot.reservedAt = new Date();
 
       await em.persistAndFlush([cart, product]);
     });
@@ -57,10 +59,14 @@ export class CartsRepository {
     this.logger.log(`Removing product ${product.productId} from cart ${cart.cartId}`);
 
     await this.orm.em.transactional(async (em) => {
-      cart.products.add(product);
-      cart.total -= product.price;
+      cart.products.remove(product);
 
-      product.timeSlot.getEntity().status = TimeSlotStatus.AVAILABLE;
+      const newTotal = cart.total - product.price;
+      cart.total = newTotal >= 0 ? newTotal : 0;
+
+      const timeSlot = await product.timeSlot.load();
+      timeSlot.status = TimeSlotStatus.AVAILABLE;
+      timeSlot.reservedAt = null;
 
       await em.persistAndFlush([cart, product]);
     });

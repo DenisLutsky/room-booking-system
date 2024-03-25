@@ -4,6 +4,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 import { GetTimeSlotsInput, TimeSlot } from '../interfaces';
 import { CalendarEntity, TimeSlotEntity } from '../entities';
+import { ProductEntity } from 'modules/booking/entities';
 
 @Injectable()
 export class CalendarsRepository {
@@ -14,10 +15,14 @@ export class CalendarsRepository {
   public async insertTimeSlot(calendar: CalendarEntity, input: TimeSlot): Promise<TimeSlotEntity> {
     this.logger.log(`Inserting time slot record into calendar ${calendar.calendarId}`);
 
-    const timeSlot = this.orm.em.create(TimeSlotEntity, { ...input, calendar });
-    await this.orm.em.persistAndFlush(timeSlot);
+    return await this.orm.em.transactional(async (em) => {
+      const timeSlot = em.create(TimeSlotEntity, { ...input, calendar });
+      const product = em.create(ProductEntity, { price: input.product.price, timeSlot });
 
-    return timeSlot;
+      await em.persistAndFlush([timeSlot, product]);
+
+      return timeSlot;
+    });
   }
 
   public async getTimeSlots(input: Partial<GetTimeSlotsInput>): Promise<TimeSlotEntity[]> {

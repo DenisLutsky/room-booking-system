@@ -6,3 +6,4 @@ export * from './is-time-before.decorator';
 export * from './at-least-one-field.decorator';
 export * from './is-date-before.decorator';
 export * from './is-bearer.decorator';
+export * from './user.decorator';

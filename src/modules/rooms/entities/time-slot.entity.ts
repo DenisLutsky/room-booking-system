@@ -4,20 +4,26 @@ import {
   Entity,
   Enum,
   ManyToOne,
+  OneToOne,
   OptionalProps,
   PrimaryKey,
   PrimaryKeyProp,
   Property,
+  Ref,
 } from '@mikro-orm/core';
 
 import { Nullable } from 'shared/types';
 import { TimeSlotStatus } from '../enums';
 import { CalendarEntity } from './calendar.entity';
+import { ProductEntity } from 'modules/booking/entities';
 
 @Entity({ tableName: 'time_slots' })
 export class TimeSlotEntity extends BaseEntity {
   @PrimaryKey({ name: 'id' })
   public timeSlotId!: number;
+
+  @OneToOne({ entity: () => ProductEntity, mappedBy: 'timeSlot', ref: true })
+  public product!: Ref<ProductEntity>;
 
   @ManyToOne({
     entity: () => CalendarEntity,

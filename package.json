@@ -1,6 +1,6 @@
 {
   "name": "room-booking-system",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Test task for the 'scrambly.io'",
   "author": "Denis Lutsky <denis.lutsky@outslook.com>",
   "private": true,

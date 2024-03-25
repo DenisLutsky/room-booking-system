@@ -206,6 +206,40 @@ For production release:
 npm run build
 ```
 
+## Running with Docker
+
+To simplify the deployment process and ensure a consistent environment for both development and production, you can use Docker. This requires Docker and Docker Compose to be installed.
+
+### Launching the application:
+
+**Building images and starting containers:**
+
+To launch the application along with dependent services (such as PostgreSQL and Redis), use the following command:
+
+```sh
+docker-compose up --build
+```
+
+This command will build images for your application and dependent services, then run them in containers. The `--build` parameter ensures the images are rebuilt before starting.
+
+**Stopping and removing containers:**
+
+To stop and remove all containers, networks, and volumes created by docker-compose, use the following command:
+
+```sh
+docker-compose down -v
+```
+
+The `-v` flag removes all volumes associated with the containers. This is useful when you want to start fresh with a clean environment.
+
+### Environment setup:
+
+To work with Docker, you need to set up environment variables. Create an `.env` file at the root of your project and specify the necessary variables as described in the "Configurations and environment variables" section.
+
+**Development using Docker:**
+
+Developers are encouraged to use `docker-compose` for local development to ensure the development environment's consistency and avoid dependency conflicts.
+
 ## License
 
 No license. All rights reserved.

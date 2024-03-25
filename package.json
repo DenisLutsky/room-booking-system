@@ -5,6 +5,7 @@
   "author": "Denis Lutsky <denis.lutsky@outslook.com>",
   "private": true,
   "scripts": {
+    "preinstall": "node preinstall.js",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -67,5 +68,11 @@
       "src/configs/mikro-orm.config.ts",
       "dist/configs/mikro-orm.config.js"
     ]
+  },
+  "engines": {
+    "yarn": "Please use NPM instead",
+    "pnpm": "Please use NPM instead",
+    "npm": "10.x",
+    "node": "20.x"
   }
 }

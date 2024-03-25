@@ -13,7 +13,7 @@ import {
 import { Nullable } from 'shared/types';
 import { OrderStatus } from '../enums';
 import { CartEntity } from './cart.entity';
-import { InvoiceEntity } from './invoice.entity';
+import { InvoiceEntity } from 'modules/payment/entities';
 
 @Entity({ tableName: 'orders' })
 export class OrderEntity extends BaseEntity {

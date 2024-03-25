@@ -9,6 +9,7 @@ import { RoomsModule } from './modules/rooms/rooms.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
 import { CacheModule } from './modules/cache/cache.module';
 import { BookingModule } from './modules/booking/booking.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { BookingModule } from './modules/booking/booking.module';
     AuthorizationModule,
     CacheModule,
     BookingModule,
+    PaymentModule,
   ],
   providers: [
     {

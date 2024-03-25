@@ -1,14 +1,23 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 
-import { CartEntity, InvoiceEntity, OrderEntity, ProductEntity } from './entities';
+import { CartEntity, OrderEntity, ProductEntity } from './entities';
 import { BookingController, CartsController } from './controllers';
-import { BookingService, CartsService, ProductsService } from './services';
-import { CartsRepository, ProductsRepository } from './repositories';
+import { BookingService, CartsService, OrdersService, ProductsService } from './services';
+import { CartsRepository, OrdersRepository, ProductsRepository } from './repositories';
+import { PaymentModule } from 'modules/payment/payment.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([CartEntity, ProductEntity, InvoiceEntity, OrderEntity])],
+  imports: [MikroOrmModule.forFeature([CartEntity, ProductEntity, OrderEntity]), PaymentModule],
   controllers: [BookingController, CartsController],
-  providers: [BookingService, CartsService, CartsRepository, ProductsService, ProductsRepository],
+  providers: [
+    BookingService,
+    CartsService,
+    CartsRepository,
+    ProductsService,
+    ProductsRepository,
+    OrdersService,
+    OrdersRepository,
+  ],
 })
 export class BookingModule {}

@@ -10,8 +10,8 @@ import {
   Ref,
 } from '@mikro-orm/core';
 
-import { OrderEntity } from './order.entity';
 import { InvoiceStatus } from '../enums';
+import { OrderEntity } from 'modules/booking/entities';
 
 @Entity({ tableName: 'invoices' })
 export class InvoiceEntity extends BaseEntity {
@@ -25,7 +25,7 @@ export class InvoiceEntity extends BaseEntity {
   public status!: InvoiceStatus;
 
   @Property({ name: 'token', columnType: 'varchar(36)' })
-  public token!: number;
+  public token!: string;
 
   @Property({ name: 'created_at', columnType: 'timestamp', defaultRaw: 'current_timestamp' })
   public createdAt!: Date;
